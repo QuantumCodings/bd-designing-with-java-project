@@ -8,30 +8,30 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ShipmentOptionTest {
 
-    private Packaging packaging = new Packaging(Material.CORRUGATE, BigDecimal.ONE, BigDecimal.ONE, BigDecimal.ONE);
+    private Packaging packaging = new Box(Material.CORRUGATE, BigDecimal.ONE, BigDecimal.ONE, BigDecimal.ONE);
     private Item item = Item.builder()
-        .withAsin("asin")
-        .withDescription("description")
-        .withHeight(BigDecimal.ONE)
-        .withLength(BigDecimal.ONE)
-        .withWidth(BigDecimal.ONE)
-        .build();
+            .withAsin("asin")
+            .withDescription("description")
+            .withHeight(BigDecimal.ONE)
+            .withLength(BigDecimal.ONE)
+            .withWidth(BigDecimal.ONE)
+            .build();
     private FulfillmentCenter fulfillmentCenter = new FulfillmentCenter("fcCode");
     private ShipmentOption shipmentOption = ShipmentOption.builder()
-        .withPackaging(packaging)
-        .withItem(item)
-        .withFulfillmentCenter(fulfillmentCenter)
-        .build();
+            .withPackaging(packaging)
+            .withItem(item)
+            .withFulfillmentCenter(fulfillmentCenter)
+            .build();
 
     private Item otherItem = Item.builder()
-        .withAsin("otherAsin")
-        .withDescription("otherDescription")
-        .withLength(BigDecimal.TEN)
-        .withWidth(BigDecimal.TEN)
-        .withHeight(BigDecimal.TEN)
-        .build();
+            .withAsin("otherAsin")
+            .withDescription("otherDescription")
+            .withLength(BigDecimal.TEN)
+            .withWidth(BigDecimal.TEN)
+            .withHeight(BigDecimal.TEN)
+            .build();
     private FulfillmentCenter otherFulfillmentCenter = new FulfillmentCenter("otherFcCode");
-    private Packaging otherPackaging = new Packaging(Material.CORRUGATE, BigDecimal.TEN, BigDecimal.TEN, BigDecimal.TEN);
+    private Packaging otherPackaging = new Box(Material.CORRUGATE, BigDecimal.TEN, BigDecimal.TEN, BigDecimal.TEN);
 
     @Test
     public void equals_sameObject_returnsTrue() {
@@ -73,10 +73,10 @@ class ShipmentOptionTest {
     public void equals_sameItemSameFCSamePackaging_returnsTrue() {
         // GIVEN
         Object other = ShipmentOption.builder()
-            .withItem(item)
-            .withFulfillmentCenter(fulfillmentCenter)
-            .withPackaging(packaging)
-            .build();
+                .withItem(item)
+                .withFulfillmentCenter(fulfillmentCenter)
+                .withPackaging(packaging)
+                .build();
 
         // WHEN
         boolean isEqual = shipmentOption.equals(other);
@@ -89,10 +89,10 @@ class ShipmentOptionTest {
     public void equals_differentItem_returnsFalse() {
         // GIVEN
         Object other = ShipmentOption.builder()
-            .withItem(otherItem)
-            .withFulfillmentCenter(fulfillmentCenter)
-            .withPackaging(packaging)
-            .build();
+                .withItem(otherItem)
+                .withFulfillmentCenter(fulfillmentCenter)
+                .withPackaging(packaging)
+                .build();
 
         // WHEN
         boolean isEqual = shipmentOption.equals(other);
@@ -105,10 +105,10 @@ class ShipmentOptionTest {
     public void equals_differentFCs_returnsFalse() {
         // GIVEN
         Object other = ShipmentOption.builder()
-            .withItem(item)
-            .withFulfillmentCenter(otherFulfillmentCenter)
-            .withPackaging(packaging)
-            .build();
+                .withItem(item)
+                .withFulfillmentCenter(otherFulfillmentCenter)
+                .withPackaging(packaging)
+                .build();
 
         // WHEN
         boolean isEqual = shipmentOption.equals(other);
@@ -122,10 +122,10 @@ class ShipmentOptionTest {
         // GIVEN
         int shipmentOptionHashCode = shipmentOption.hashCode();
         Object other = ShipmentOption.builder()
-            .withPackaging(packaging)
-            .withFulfillmentCenter(fulfillmentCenter)
-            .withItem(item)
-            .build();
+                .withPackaging(packaging)
+                .withFulfillmentCenter(fulfillmentCenter)
+                .withItem(item)
+                .build();
 
         // WHEN
         int otherHashCode = other.hashCode();
@@ -139,10 +139,10 @@ class ShipmentOptionTest {
         // GIVEN
         int shipmentOptionHashCode = shipmentOption.hashCode();
         Object other = ShipmentOption.builder()
-            .withPackaging(packaging)
-            .withFulfillmentCenter(fulfillmentCenter)
-            .withItem(otherItem)
-            .build();
+                .withPackaging(packaging)
+                .withFulfillmentCenter(fulfillmentCenter)
+                .withItem(otherItem)
+                .build();
 
         // WHEN
         int otherHashCode = other.hashCode();
@@ -156,10 +156,10 @@ class ShipmentOptionTest {
         // GIVEN
         int shipmentOptionHashCode = shipmentOption.hashCode();
         Object other = ShipmentOption.builder()
-            .withPackaging(packaging)
-            .withFulfillmentCenter(otherFulfillmentCenter)
-            .withItem(item)
-            .build();
+                .withPackaging(packaging)
+                .withFulfillmentCenter(otherFulfillmentCenter)
+                .withItem(item)
+                .build();
 
         // WHEN
         int otherHashCode = other.hashCode();
@@ -173,10 +173,10 @@ class ShipmentOptionTest {
         // GIVEN
         int shipmentOptionHashCode = shipmentOption.hashCode();
         Object other = ShipmentOption.builder()
-            .withPackaging(otherPackaging)
-            .withFulfillmentCenter(fulfillmentCenter)
-            .withItem(item)
-            .build();
+                .withPackaging(otherPackaging)
+                .withFulfillmentCenter(fulfillmentCenter)
+                .withItem(item)
+                .build();
 
         // WHEN
         int otherHashCode = other.hashCode();

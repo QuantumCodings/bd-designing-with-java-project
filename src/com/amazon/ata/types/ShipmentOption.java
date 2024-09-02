@@ -87,7 +87,7 @@ public class ShipmentOption {
          * @return a reference to this Builder
          */
         public Builder withItem(Item itemToUse) {
-            this.item = itemToUse;
+            item = itemToUse;
             return this;
         }
 
@@ -111,7 +111,7 @@ public class ShipmentOption {
          * @return a reference to this Builder
          */
         public Builder withFulfillmentCenter(FulfillmentCenter fulfillmentCenterToUse) {
-            this.fulfillmentCenter = fulfillmentCenterToUse;
+            fulfillmentCenter = fulfillmentCenterToUse;
             return this;
         }
 
