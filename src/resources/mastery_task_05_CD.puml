@@ -1,0 +1,35 @@
+@startuml
+'describing the changes in the cost
+title [Cost Strategy]
+
+class MonetaryCostStrategy {
+    + getCost(ShipmentOption shipmentOption) : ShipmentCost
+        - {static final} BigDecimal LABOR_COST
+        - {final} Map<Material, BigDecimal> materialCostPerGram
+        + MonetaryCostStrategy()
+}
+
+class CarbonCostStrategy {
+    - {final} Map<Material, BigDecimal> carbonCostPerGram
+    + CarbonCostStrategy()
+    + getCost(ShipmentOption shipmentOption) : ShipmentCost
+}
+
+class WeightedCostStrategy {
+    - {final} Map<Material, BigDecimal> WeightedCostPerGram
+    + WeightedCostStrategy()
+    + getCost(ShipmentOption shipmentOption) : ShipmentCost
+}
+
+interface CostStrategy {
+    getCost(ShipmentOption shipmentOption) : ShipmentCost
+}
+
+
+
+WeightedCostStrategy ..|> CostStrategy
+WeightedCostStrategy <-- MonetaryCostStrategy
+MonetaryCostStrategy ..|> CostStrategy
+CarbonCostStrategy ..|> CostStrategy
+WeightedCostStrategy <-- CarbonCostStrategy
+@enduml

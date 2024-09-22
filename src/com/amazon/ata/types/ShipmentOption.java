@@ -53,20 +53,17 @@ public class ShipmentOption {
         if (this == o) {
             return true;
         }
-
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
-        ShipmentOption other = (ShipmentOption) o;
-        return item.equals(other.item) &&
-            packaging.equals(other.packaging) &&
-            fulfillmentCenter.equals(other.fulfillmentCenter);
+        ShipmentOption that = (ShipmentOption) o;
+        return item.equals(that.item) && packaging.equals(that.packaging) &&
+                fulfillmentCenter.equals(that.fulfillmentCenter);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(item, packaging, fulfillmentCenter);
+        return Objects.hash(item , packaging , fulfillmentCenter);
     }
 
     /**
@@ -87,7 +84,7 @@ public class ShipmentOption {
          * @return a reference to this Builder
          */
         public Builder withItem(Item itemToUse) {
-            item = itemToUse;
+            this.item = itemToUse;
             return this;
         }
 
@@ -111,7 +108,7 @@ public class ShipmentOption {
          * @return a reference to this Builder
          */
         public Builder withFulfillmentCenter(FulfillmentCenter fulfillmentCenterToUse) {
-            fulfillmentCenter = fulfillmentCenterToUse;
+            this.fulfillmentCenter = fulfillmentCenterToUse;
             return this;
         }
 
@@ -122,6 +119,10 @@ public class ShipmentOption {
          */
         public ShipmentOption build() {
             return new ShipmentOption(this);
+        }
+
+        public Item getItem() {
+            return item;
         }
     }
 }

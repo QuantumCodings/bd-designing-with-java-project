@@ -10,22 +10,24 @@ import java.util.Objects;
  * Items can fit in the packaging so long as their dimensions are all smaller than
  * the packaging's dimensions.
  */
-public abstract class Packaging {
-    /**
-     * The material this packaging is made of.
-     */
+public class Packaging {
+
     private Material material;
 
-
     /**
-     * Default constructor.
+     * Instantiates a new Packaging object.
+     * @param material - the Material of the package
      */
-
-    public Packaging() {
+    public Packaging(Material material) {
+        this.material = material;
     }
 
     public Material getMaterial() {
         return material;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
     }
 
     /**
@@ -34,37 +36,34 @@ public abstract class Packaging {
      * @param item the item to test fit for
      * @return whether the item will fit in this packaging
      */
-    public abstract boolean canFitItem(Item item);
+    public boolean canFitItem(Item item) {
+        throw new UnsupportedOperationException();
+    }
+
 
     /**
      * Returns the mass of the packaging in grams. The packaging weighs 1 gram per square centimeter.
      * @return the mass of the packaging
      */
-    public abstract BigDecimal getMass();
+    public BigDecimal getMass() {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public boolean equals(Object o) {
-        // Can't be equal to null
-        if (o == null) {
-            return false;
-        }
-
-        // Referentially equal
         if (this == o) {
             return true;
         }
-
-        // Check if it's a different type
-        if (getClass() != o.getClass()) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         Packaging packaging = (Packaging) o;
-        return getMaterial() == packaging.getMaterial();
+        return material == packaging.material;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(material);
     }
+
 }

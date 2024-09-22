@@ -22,19 +22,25 @@ public class Box extends Packaging {
     /**
      * Instantiates a new box object.
      *
-     * @param material - the Material of the package
-     * @param length   - the length of the package
      * @param width    - the width of the package
      * @param height   - the height of the package
+     * @param material - the material of the package
+     * @param length   - the length of the package
      */
-    public Box(Material material, BigDecimal length, BigDecimal width, BigDecimal height) {
-        Material material1 = Material.CORRUGATE;
+    public Box(Material material, BigDecimal length , BigDecimal width , BigDecimal height) {
+        super(material);
         this.length = length;
         this.width = width;
         this.height = height;
     }
 
 
+    /**
+     * Returns whether the given item will fit in this packaging.
+     *
+     * @param item the item
+     * @return will the item fit
+     */
     @Override
     public boolean canFitItem(Item item) {
         return this.length.compareTo(item.getLength()) > 0 &&
@@ -42,19 +48,31 @@ public class Box extends Packaging {
                 this.height.compareTo(item.getHeight()) > 0;
     }
 
+    /**
+     * Returns the mass packaging in grams.
+     * @return the mass packaging
+     */
     @Override
     public BigDecimal getMass() {
         BigDecimal two = BigDecimal.valueOf(2);
-        // For simplicity, we ignore overlapping flaps
+
         BigDecimal endsArea = length.multiply(width).multiply(two);
         BigDecimal shortSidesArea = length.multiply(height).multiply(two);
         BigDecimal longSidesArea = width.multiply(height).multiply(two);
 
         return endsArea.add(shortSidesArea).add(longSidesArea);
     }
-    @Override
-    public Material getMaterial() {
-        return Material.CORRUGATE;
+
+    public BigDecimal getLength() {
+        return length;
+    }
+
+    public BigDecimal getWidth() {
+        return width;
+    }
+
+    public BigDecimal getHeight() {
+        return height;
     }
 
     @Override
@@ -74,6 +92,6 @@ public class Box extends Packaging {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), length, width, height);
+        return Objects.hash(super.hashCode() , length , width , height);
     }
 }

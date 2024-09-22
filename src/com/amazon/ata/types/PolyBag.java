@@ -4,34 +4,35 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class PolyBag extends Packaging {
-
-    private BigDecimal volume;
+    private final BigDecimal volume;
 
     /**
-     * constructs a polybag.
-     * @param material the material is laminated plastic.
-     * @param volume volume of bag
+     * Instantiates a new Packaging object.
+     * @param material - the Material of the package
+     * @param volume  - the volume of the package
      */
     public PolyBag(Material material, BigDecimal volume) {
+        super(material);
         this.volume = volume;
     }
 
     @Override
     public boolean canFitItem(Item item) {
-        return this.volume.compareTo(item.getLength()
-                .multiply(item.getHeight())
-                .multiply(item.getWidth())) > 0;
+        BigDecimal length = item.getLength();
+        BigDecimal height = item.getHeight();
+        BigDecimal width = item.getWidth();
+        BigDecimal itemVolume = length.multiply(width).multiply(height);
+
+        return this.volume.compareTo(itemVolume) > 0;
     }
 
     @Override
     public BigDecimal getMass() {
-        double mass = Math.ceil(Math.sqrt(volume.doubleValue()) * 0.6);
-        return BigDecimal.valueOf(mass);
+        return BigDecimal.valueOf(Math.ceil(Math.sqrt(volume.doubleValue()) * 0.6));
     }
 
-    @Override
-    public Material getMaterial() {
-        return Material.LAMINATED_PLASTIC;
+    public BigDecimal getVolume() {
+        return volume;
     }
 
     @Override
@@ -42,12 +43,15 @@ public class PolyBag extends Packaging {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
+        if (!super.equals(o)) {
+            return false;
+        }
         PolyBag polyBag = (PolyBag) o;
         return volume.equals(polyBag.volume);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(volume);
+        return Objects.hash(super.hashCode() , volume);
     }
 }

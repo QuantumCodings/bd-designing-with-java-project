@@ -17,18 +17,23 @@ class PackagingDatastoreTest {
     FulfillmentCenter yow4 = new FulfillmentCenter("YOW4");
     FulfillmentCenter iad2 = new FulfillmentCenter("IAD2");
     FulfillmentCenter pdx1 = new FulfillmentCenter("PDX1");
+    BigDecimal tenCm = BigDecimal.TEN;
+    BigDecimal twentyCm = BigDecimal.valueOf(20);
+    BigDecimal fortyCm = BigDecimal.valueOf(40);
+    BigDecimal sixtyCm = BigDecimal.valueOf(60);
+    BigDecimal twoThousandCc = BigDecimal.valueOf(2000);
+    BigDecimal tenThousandCc= BigDecimal.valueOf(10000);
 
-    Packaging package10Cm = new Box(Material.CORRUGATE,
-            BigDecimal.valueOf(10), BigDecimal.valueOf(10), BigDecimal.valueOf(10));
+    Packaging package10Cm = new Box(Material.CORRUGATE, tenCm, tenCm, tenCm);
 
-    Packaging package20Cm = new Box(Material.CORRUGATE,
-            BigDecimal.valueOf(20), BigDecimal.valueOf(20), BigDecimal.valueOf(20));
+    Packaging package20Cm = new Box(Material.CORRUGATE, twentyCm, twentyCm, twentyCm);
 
-    Packaging package40Cm = new Box(Material.CORRUGATE,
-            BigDecimal.valueOf(40), BigDecimal.valueOf(40), BigDecimal.valueOf(40));
+    Packaging package40Cm = new Box(Material.CORRUGATE, fortyCm, fortyCm, fortyCm);
 
-    Packaging package60Cm = new Box(Material.CORRUGATE,
-            BigDecimal.valueOf(60), BigDecimal.valueOf(60), BigDecimal.valueOf(60));
+    Packaging package60Cm = new Box(Material.CORRUGATE, sixtyCm, sixtyCm, sixtyCm);
+    Packaging packaging2000Cc = new PolyBag(Material.LAMINATED_PLASTIC, twoThousandCc);
+    Packaging packaging10000Cc = new PolyBag(Material.LAMINATED_PLASTIC, tenThousandCc);
+
 
     FcPackagingOption ind1_10Cm = new FcPackagingOption(ind1, package10Cm);
     FcPackagingOption abe2_20Cm = new FcPackagingOption(abe2, package20Cm);
@@ -39,6 +44,8 @@ class PackagingDatastoreTest {
     FcPackagingOption iad2_20Cm = new FcPackagingOption(iad2, package20Cm);
     FcPackagingOption pdx1_40Cm = new FcPackagingOption(pdx1, package40Cm);
     FcPackagingOption pdx1_60Cm = new FcPackagingOption(pdx1, package60Cm);
+    FcPackagingOption iad2_2000Cc = new FcPackagingOption(iad2, packaging2000Cc);
+    FcPackagingOption iad2_10000Cc = new FcPackagingOption(iad2, packaging10000Cc);
 
 
     @Test
@@ -46,7 +53,7 @@ class PackagingDatastoreTest {
         // GIVEN
         PackagingDatastore packagingDatastore = new PackagingDatastore();
         List<FcPackagingOption> expectedPackagingOptions = Arrays.asList(ind1_10Cm, abe2_20Cm, abe2_40Cm, yow4_10Cm,
-                yow4_20Cm, yow4_60Cm, iad2_20Cm, iad2_20Cm, pdx1_40Cm, pdx1_60Cm, pdx1_60Cm);
+                yow4_20Cm, yow4_60Cm, iad2_20Cm, iad2_20Cm, pdx1_40Cm, pdx1_60Cm, pdx1_60Cm, iad2_2000Cc, iad2_10000Cc);
 
         // WHEN
         List<FcPackagingOption> fcPackagingOptions = packagingDatastore.getFcPackagingOptions();
