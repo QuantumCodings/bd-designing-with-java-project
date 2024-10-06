@@ -57,11 +57,11 @@ public class PackagingDAO {
             Packaging packaging = option.getPackaging();
             // Check if the packaging can fit the item based on its type (Box or PolyBag)
             if (packaging.canFitItem(item)) {
-                return true; // Item can fit in this packaging
+                return true; // Item can fit in this packaging.
             }
         }
 
-        return false; // No packaging found that can fit the item
+        return false; // No packaging found that can fit the item.
     }
 
     /**
@@ -107,7 +107,7 @@ public class PackagingDAO {
                     String.format("No packaging at %s fits %s!", fulfillmentCenter.getFcCode(), item));
         }
 
-        return result; // Return the list of valid shipment options
+        return result; // Return the list of valid shipment options.
     }
 
     /**
