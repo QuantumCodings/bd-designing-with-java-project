@@ -21,20 +21,18 @@ public class ShipmentOption {
      */
     private FulfillmentCenter fulfillmentCenter;
 
-    private ShipmentOption(Builder builder) {
-        item = builder.item;
-        packaging = builder.packaging;
-        fulfillmentCenter = builder.fulfillmentCenter;
+    public ShipmentOption(Item item, Packaging packaging, FulfillmentCenter fulfillmentCenter) {
+        this.item = item;
+        this.packaging = packaging;
+        this.fulfillmentCenter = fulfillmentCenter;
     }
 
-    /**
-     * Returns a new ShipmentOption.Builder object for constructing a ShipmentOption.
-     *
-     * @return new builder ready for constructing a ShipmentOption
-     */
     public static Builder builder() {
         return new Builder();
     }
+
+
+    // Existing builder and getter methods remain unchanged.
 
     public Item getItem() {
         return item;
@@ -77,48 +75,23 @@ public class ShipmentOption {
         private Builder() {
         }
 
-        /**
-         * Sets the {@code item} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param itemToUse the {@code item} to set
-         * @return a reference to this Builder
-         */
         public Builder withItem(Item itemToUse) {
             this.item = itemToUse;
             return this;
         }
 
-        /**
-         * Sets the {@code packaging} and returns a reference to this Builder so that the methods can be chained
-         * together.
-         *
-         * @param packagingToUse the {@code packaging} to set
-         * @return a reference to this Builder
-         */
         public Builder withPackaging(Packaging packagingToUse) {
             this.packaging = packagingToUse;
             return this;
         }
 
-        /**
-         * Sets the {@code fulfillmentCenter} and returns a reference to this Builder so that the methods can be
-         * chained together.
-         *
-         * @param fulfillmentCenterToUse the {@code fulfillmentCenter} to set
-         * @return a reference to this Builder
-         */
         public Builder withFulfillmentCenter(FulfillmentCenter fulfillmentCenterToUse) {
             this.fulfillmentCenter = fulfillmentCenterToUse;
             return this;
         }
 
-        /**
-         * Returns a {@code ShipmentOption} built from the parameters previously set.
-         *
-         * @return a {@code ShipmentOption} built with parameters of this {@code ShipmentOption.Builder}
-         */
         public ShipmentOption build() {
-            return new ShipmentOption(this);
+            return new ShipmentOption(item, packaging, fulfillmentCenter);
         }
 
         public Item getItem() {

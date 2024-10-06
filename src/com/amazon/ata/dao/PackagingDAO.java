@@ -20,6 +20,7 @@ import java.util.Set;
  * Access data for which packaging is available at which fulfillment center.
  */
 public class PackagingDAO {
+
     /**
      * A list of fulfillment centers with a packaging options they provide.
      */
@@ -38,59 +39,82 @@ public class PackagingDAO {
     }
 
     /**
-     * Returns the packaging options available for a given item at the specified fulfillment center. The API
-     * used to call this method handles null inputs, so we don't have to.
+     * Checks if an item can fit in any packaging available at the specified fulfillment center.
+     *
+     * @param item The item to check.
+     * @param fulfillmentCenter The fulfillment center to check for available packaging options.
+     * @return true if the item can fit in any packaging; false otherwise.
+     */
+    public boolean canFit(Item item, FulfillmentCenter fulfillmentCenter) {
+        // Get all the FcPackagingOptions for the specified FulfillmentCenter
+        Set<FcPackagingOption> packagingOptions = fcPackagingOptions1.get(fulfillmentCenter);
+        if (packagingOptions == null) {
+            return false;
+        }
+
+        // Iterate over all the packaging options for the given FulfillmentCenter
+        for (FcPackagingOption option : packagingOptions) {
+            Packaging packaging = option.getPackaging();
+            // Check if the packaging can fit the item based on its type (Box or PolyBag)
+            if (packaging.canFitItem(item)) {
+                return true; // Item can fit in this packaging
+            }
+        }
+
+        return false; // No packaging found that can fit the item
+    }
+
+    /**
+     * Returns the packaging options available for a given item at the specified fulfillment center.
+     * Throws exceptions if no packaging fits.
      *
      * @param item the item to pack
      * @param fulfillmentCenter fulfillment center to fulfill the order from
-     * @return the shipping options available for that item; this can never be empty, because if there is no
-     * acceptable option an exception will be thrown
+     * @return the shipping options available for that item; never empty
      * @throws UnknownFulfillmentCenterException if the fulfillmentCenter is not in the fcPackagingOptions list
      * @throws NoPackagingFitsItemException if the item doesn't fit in any packaging at the FC
      */
     public List<ShipmentOption> findShipmentOptions(Item item, FulfillmentCenter fulfillmentCenter)
             throws UnknownFulfillmentCenterException, NoPackagingFitsItemException {
 
-        // Check all FcPackagingOptions for a suitable Packaging in the given FulfillmentCenter
-        List<ShipmentOption> result = new ArrayList<>();
-        boolean fcFound = false;
+        // Check if the fulfillment center exists
         if (fcPackagingOptions1.get(fulfillmentCenter) == null) {
             throw new UnknownFulfillmentCenterException(
                     String.format("Unknown FC: %s!", fulfillmentCenter.getFcCode()));
         }
+
+        // List to store shipment options that can fit the item
+        List<ShipmentOption> result = new ArrayList<>();
+
+        // Iterate over the packaging options for the given fulfillment center
         for (FcPackagingOption fcPackagingOption : fcPackagingOptions1.get(fulfillmentCenter)) {
             Packaging packaging = fcPackagingOption.getPackaging();
             String fcCode = fcPackagingOption.getFulfillmentCenter().getFcCode();
-            if (fcCode.equals(fulfillmentCenter.getFcCode())) {
-                fcFound = true;
-                if (packaging.canFitItem(item)) {
-                    result.add(ShipmentOption.builder()
-                            .withItem(item)
-                            .withPackaging(packaging)
-                            .withFulfillmentCenter(fulfillmentCenter)
-                            .build());
-                }
+            // If the fulfillment center matches, check if the packaging fits the item
+            if (fcCode.equals(fulfillmentCenter.getFcCode()) && packaging.canFitItem(item)) {
+                // If it fits, create a shipment option and add it to the list
+                result.add(ShipmentOption.builder()
+                        .withItem(item)
+                        .withPackaging(packaging)
+                        .withFulfillmentCenter(fulfillmentCenter)
+                        .build());
             }
         }
 
-        // Notify caller about unexpected results
-        if (!fcFound) {
-            throw new UnknownFulfillmentCenterException(
-                    String.format("Unknown FC: %s!", fulfillmentCenter.getFcCode()));
-        }
-
+        // If no packaging was found that fits the item, throw an exception
         if (result.isEmpty()) {
             throw new NoPackagingFitsItemException(
                     String.format("No packaging at %s fits %s!", fulfillmentCenter.getFcCode(), item));
         }
 
-        return result;
+        return result; // Return the list of valid shipment options
     }
 
     /**
-     * duplicate checker method to find duplicate items then remove them.
-     * @param fcPackagingOptions a object.
-     * @return returns a list of option.
+     * Duplicate checker method to find duplicate items and remove them.
+     *
+     * @param fcPackagingOptions a list of ShipmentOptions
+     * @return returns a list of unique ShipmentOptions
      */
     public List<ShipmentOption> duplicateCheck(List<ShipmentOption> fcPackagingOptions) {
         if (fcPackagingOptions != null) {
@@ -98,7 +122,7 @@ public class PackagingDAO {
                 String fcCode1 = fcPackagingOptions.get(i).getFulfillmentCenter().getFcCode();
                 String fcCode2 = fcPackagingOptions.get(i + 1).getFulfillmentCenter().getFcCode();
 
-
+                // Remove duplicates based on Fulfillment Center code
                 if (fcCode1.equals(fcCode2)) {
                     fcPackagingOptions.remove(i);
                 }
